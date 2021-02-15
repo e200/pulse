@@ -50,7 +50,43 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
   }
   @override
   Widget build(BuildContext context) {
+    return AbsorbPointer(
+      absorbing: _animationController.isAnimating,
+      child: GestureDetector(
+        onTapDown: (details) {
+          _offsetNotifier.value = details.globalPosition;
+
+          _animationController.forward(from: 0);
+
+          widget.onTap?.call();
+        },
+        child: ValueListenableBuilder(
+          valueListenable: _offsetNotifier,
+          builder: (context, offset, child) {
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final _size = Size(constraints.maxWidth, constraints.maxHeight);
+                final _circleRadius =
+                    _hypotenuse(offset: offset, size: _size) * _animation.value;
+
     return Opacity(
+                  opacity: widget.fadeIn ? _animation.value : 1,
+                  child: CustomPaint(
+                    size: _size,
+                    painter: PulsePaint(
+                      color: widget.pulseColor,
+                      offset: offset,
+                      radius: _circleRadius,
+                    ),
+                    child: widget.child,
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
