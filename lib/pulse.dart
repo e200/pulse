@@ -19,13 +19,13 @@ class Pulse extends StatefulWidget {
   const Pulse({
     Key key,
     @required this.pulseColor,
+    @required this.duration,
     this.child,
     this.fadeIn = false,
     this.absorbConsecutivePointers = true,
     this.useLastPulseColorAsBackground = true,
     this.blendMode,
     this.curve,
-    this.duration,
     this.onTap,
     this.onComplete,
   }) : super(key: key);
@@ -55,7 +55,7 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
   void _setupAnimation() {
     _animationController = AnimationController(
       vsync: this,
-      duration: widget.duration ?? Duration(milliseconds: 300),
+      duration: widget.duration,
     );
 
     if (widget.onComplete != null) {

@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Pulse(
+        duration: Duration(seconds: 1),
         pulseColor: _colors.first,
         onComplete: () {
           setState(() {
