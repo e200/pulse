@@ -8,6 +8,7 @@ class Pulse extends StatefulWidget {
   final Widget child;
   final Color pulseColor;
   final Curve curve;
+  final BlendMode blendMode;
   final bool fadeIn;
   final Function onComplete;
   final Function onCancel;
@@ -144,6 +145,7 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
 }
 
 class PulsePaint extends CustomPainter {
+  final BlendMode blendMode;
   final double radius;
   final Color color;
   final Offset offset;
@@ -152,11 +154,16 @@ class PulsePaint extends CustomPainter {
     this.radius,
     this.color,
     this.offset,
+    this.blendMode,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final _paint = Paint()..color = color;
+
+    if (blendMode != null) {
+      _paint.blendMode = blendMode;
+    }
 
     canvas.drawCircle(offset, radius, _paint);
   }
