@@ -48,6 +48,20 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
     _animationController.dispose();
     super.dispose();
   }
+
+  double _hypotenuse({Offset offset, Size size}) {
+    final _xDistance = offset.dx;
+    final _yDistance = offset.dy;
+
+    final _distanceFromOffsetToTheRightEdge = size.width - _xDistance;
+    final _distanceFromOffsetToTheTopEdge = size.height - _yDistance;
+
+    final _a = max(_distanceFromOffsetToTheRightEdge, _xDistance);
+    final _b = max(_distanceFromOffsetToTheTopEdge, _yDistance);
+
+    return sqrt(pow(_a, 2) + pow(_b, 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
