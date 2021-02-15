@@ -3,13 +3,34 @@ library pulse;
 import 'package:flutter/widgets.dart';
 
 class Pulse extends StatefulWidget {
+  final Widget child;
+  final Color pulseColor;
+  final Curve curve;
+  final bool fadeIn;
+  final Function onComplete;
+  final Function onCancel;
+  final Function onTap;
+
+  const Pulse({
+    Key key,
+    @required this.pulseColor,
+    @required this.onComplete,
+    this.child,
+    this.fadeIn = false,
+    this.curve,
+    this.onTap,
+    this.onCancel,
+  }) : super(key: key);
+
   @override
   _PulseState createState() => _PulseState();
 }
+
 class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
   Animation _animation;
   AnimationController _animationController;
 
+  final _offsetNotifier = ValueNotifier(Offset.zero);
 
   @override
   void initState() {
