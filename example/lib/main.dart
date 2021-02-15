@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
     Colors.red,
     Colors.yellow,
     Colors.green,
-    Colors.lightBlue,
     Colors.purple,
     Colors.deepPurple,
   ];
