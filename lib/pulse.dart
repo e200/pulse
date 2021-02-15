@@ -8,6 +8,7 @@ class Pulse extends StatefulWidget {
   final Widget child;
   final Color pulseColor;
   final Curve curve;
+  final Duration duration;
   final BlendMode blendMode;
   final bool fadeIn;
   final bool absorbConsecutivePointers;
@@ -24,6 +25,7 @@ class Pulse extends StatefulWidget {
     this.useLastPulseColorAsBackground = true,
     this.blendMode,
     this.curve,
+    this.duration,
     this.onTap,
     this.onComplete,
   }) : super(key: key);
@@ -45,14 +47,15 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    _pulseColor = widget.pulseColor;
+
     _setupAnimation();
   }
 
   void _setupAnimation() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
-      value: 0.0,
+      duration: widget.duration ?? Duration(milliseconds: 300),
     );
 
     if (widget.onComplete != null) {
@@ -104,7 +107,9 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
   void didUpdateWidget(covariant Pulse oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.curve != oldWidget.curve) {
+    if (widget.duration != oldWidget.duration) {
+      _setupAnimation();
+    } else if (widget.curve != oldWidget.curve) {
       _setupTween();
     }
   }
