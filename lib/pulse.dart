@@ -11,6 +11,7 @@ class Pulse extends StatefulWidget {
   final BlendMode blendMode;
   final bool fadeIn;
   final bool absorbConsecutivePointers;
+  final bool useLastPulseColorAsBackground;
   final Function onComplete;
   final Function onTap;
 
@@ -20,6 +21,7 @@ class Pulse extends StatefulWidget {
     this.child,
     this.fadeIn = false,
     this.absorbConsecutivePointers = true,
+    this.useLastPulseColorAsBackground = true,
     this.blendMode,
     this.curve,
     this.onTap,
@@ -31,6 +33,9 @@ class Pulse extends StatefulWidget {
 }
 
 class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
+  Color _pulseColor;
+  Color _bgColor;
+
   Animation _animation;
   AnimationController _animationController;
 
@@ -53,6 +58,10 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
     if (widget.onComplete != null) {
       _animationController.addStatusListener((status) {
         if (_animationController.isCompleted) {
+          setState(() {
+            _bgColor = widget.pulseColor;
+          });
+
           widget.onComplete();
         }
       });
@@ -107,6 +116,8 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
           widget.absorbConsecutivePointers && _animationController.isAnimating,
       child: GestureDetector(
         onTapDown: (details) {
+          _pulseColor = widget.pulseColor;
+
           _offsetNotifier.value = details.globalPosition;
 
           _animationController.forward(from: 0);
@@ -122,16 +133,19 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
                 final _circleRadius =
                     _hypotenuse(offset: offset, size: _size) * _animation.value;
 
-                return Opacity(
+                return Container(
+                  color: widget.useLastPulseColorAsBackground ? _bgColor : null,
+                  child: Opacity(
                   opacity: widget.fadeIn ? _animation.value : 1,
                   child: CustomPaint(
                     size: _size,
                     painter: PulsePaint(
-                      color: widget.pulseColor,
+                        color: _pulseColor,
                       offset: offset,
                       radius: _circleRadius,
                     ),
                     child: widget.child,
+                  ),
                   ),
                 );
               },
