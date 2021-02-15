@@ -10,21 +10,20 @@ class Pulse extends StatefulWidget {
   final Curve curve;
   final BlendMode blendMode;
   final bool fadeIn;
+  final bool absorbConsecutivePointers;
   final Function onComplete;
-  final Function onCancel;
   final Function onTap;
 
   const Pulse({
     Key key,
     @required this.pulseColor,
-    @required this.onComplete,
     this.child,
     this.fadeIn = false,
     this.absorbConsecutivePointers = true,
     this.blendMode,
     this.curve,
     this.onTap,
-    this.onCancel,
+    this.onComplete,
   }) : super(key: key);
 
   @override
