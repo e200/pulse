@@ -23,17 +23,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _pulseColor = Colors.deepOrange;
+  final _colors = [
+    Colors.red,
+    Colors.yellow,
+    Colors.green,
+    Colors.lightBlue,
+    Colors.purple,
+    Colors.deepPurple,
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Pulse(
-        curve: Curves.slowMiddle,
-        blendMode: BlendMode.difference,
-        pulseColor: _pulseColor,
-        
+        pulseColor: _colors.first,
+        onComplete: () {
+          setState(() {
+            final _color = _colors.first;
+
+            _colors.remove(_color);
+            _colors.add(_color);
+          });
+        },
       ),
     );
   }
