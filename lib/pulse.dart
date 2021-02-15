@@ -1,5 +1,7 @@
 library pulse;
 
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 
 class Pulse extends StatefulWidget {
@@ -104,7 +106,7 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
                 final _circleRadius =
                     _hypotenuse(offset: offset, size: _size) * _animation.value;
 
-    return Opacity(
+                return Opacity(
                   opacity: widget.fadeIn ? _animation.value : 1,
                   child: CustomPaint(
                     size: _size,
@@ -139,7 +141,7 @@ class PulsePaint extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final _paint = Paint()..color = color;
-      
+
     canvas.drawCircle(offset, radius, _paint);
   }
 
