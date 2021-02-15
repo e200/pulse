@@ -136,16 +136,17 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
                 return Container(
                   color: widget.useLastPulseColorAsBackground ? _bgColor : null,
                   child: Opacity(
-                  opacity: widget.fadeIn ? _animation.value : 1,
-                  child: CustomPaint(
-                    size: _size,
-                    painter: PulsePaint(
+                    opacity: widget.fadeIn ? _animation.value : 1,
+                    child: CustomPaint(
+                      size: _size,
+                      painter: PulsePaint(
                         color: _pulseColor,
-                      offset: offset,
-                      radius: _circleRadius,
+                        offset: offset,
+                        radius: _circleRadius,
+                        blendMode: widget.blendMode,
+                      ),
+                      child: widget.child,
                     ),
-                    child: widget.child,
-                  ),
                   ),
                 );
               },
