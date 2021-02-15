@@ -19,6 +19,8 @@ class Pulse extends StatefulWidget {
     @required this.onComplete,
     this.child,
     this.fadeIn = false,
+    this.absorbConsecutivePointers = true,
+    this.blendMode,
     this.curve,
     this.onTap,
     this.onCancel,
@@ -101,7 +103,8 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
-      absorbing: _animationController.isAnimating,
+      absorbing:
+          widget.absorbConsecutivePointers && _animationController.isAnimating,
       child: GestureDetector(
         onTapDown: (details) {
           _offsetNotifier.value = details.globalPosition;
