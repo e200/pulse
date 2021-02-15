@@ -56,6 +56,10 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
       });
     }
 
+    _setupTween();
+  }
+
+  _setupTween() {
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         curve: widget.curve ?? Curves.ease,
@@ -83,6 +87,15 @@ class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
     final _b = max(_distanceFromOffsetToTheTopEdge, _yDistance);
 
     return sqrt(pow(_a, 2) + pow(_b, 2));
+  }
+
+  @override
+  void didUpdateWidget(covariant Pulse oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.curve != oldWidget.curve) {
+      _setupTween();
+    }
   }
 
   @override
